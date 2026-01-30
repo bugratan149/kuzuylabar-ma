@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seni Çok Seviyorum ❤️</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif; /* Daha samimi bir font */
+            text-align: center;
+            background: linear-gradient(135deg, #ffb3c1, #ff8fa3); /* Pembe gradient */
+            color: #4a0000; /* Koyu kırmızımsı yazı rengi */
+            margin: 0;
+            padding: 20px;
+            overflow: hidden; /* Kalplerin dışarı taşmasını engelle */
+            position: relative;
+        }
+        .heart-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Kalpler tıklanmasın */
+            overflow: hidden;
+            z-index: 0;
+        }
+        .heart {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.5); /* Yarı şeffaf beyaz kalpler */
+            font-size: 30px;
+            animation: float 10s infinite ease-in-out;
+            opacity: 0;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.8); /* Yarı şeffaf beyaz kutu */
+            border-radius: 20px;
+            padding: 30px;
+            margin: 50px auto;
+            max-width: 600px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 1; /* İçerik kalplerin üzerinde dursun */
+        }
+        img {
+            max-width: 90%;
+            height: auto;
+            border-radius: 15px;
+            border: 5px solid #ff4d6d; /* Kalın pembe çerçeve */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            margin-bottom: 25px;
+        }
+        h1 {
+            color: #ff0055; /* Parlak pembe başlık */
+            font-size: 3em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        p {
+            font-size: 1.3em;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        button {
+            padding: 18px 35px;
+            font-size: 1.5em;
+            cursor: pointer;
+            border: none;
+            border-radius: 30px;
+            margin: 15px;
+            font-weight: bold;
+            transition: transform 0.2s ease-in-out, background-color 0.2s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        #yesBtn {
+            background-color: #ff4d6d; /* Kalp kırmızısı */
+            color: white;
+        }
+        #yesBtn:hover {
+            background-color: #ff2a51;
+            transform: scale(1.05);
+        }
+        #noBtn {
+            background-color: #cccccc; /* Gri tonu */
+            color: #666666;
+            position: relative; /* Butonun kaçması için */
+        }
+        #noBtn:hover {
+            background-color: #bbbbbb;
+            transform: scale(1.05);
+        }
+        .hidden { display: none; }
+        .hearts-anim {
+            font-size: 60px;
+            color: #ff0055;
+            animation: beat 1s infinite;
+            margin-top: 20px;
+        }
+        @keyframes beat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="heart-background"></div> <div id="step1" class="container">
+        <img src="foto1.jpg" alt="İlk Fotoğraf">
+        <h1>Seni Çok Özledim... ❤️</h1>
+        <p>Her şeyin başladığı o güzel günleri hala dün gibi hatırlıyorum. Sensiz geçen her an eksik...</p>
+        <button onclick="nextStep()">Devam Et</button>
+    </div>
+
+    <div id="step2" class="container hidden">
+        <img src="foto2.jpg" alt="İkinci Fotoğraf">
+        <h1>Barışalım mı? 🥺</h1>
+        <p>Aramızdaki her şeyi düzeltmek, yeniden gülüşmek, her şeye sil baştan başlamak için bir şans daha istiyorum. Seni çok seviyorum...</p>
+        <button id="yesBtn" onclick="celebrate()">EVET!</button>
+        <button id="noBtn" onmouseover="moveButton()">Hayır</button>
+    </div>
+
+    <div id="step3" class="container hidden">
+        <div class="hearts-anim">❤️❤️❤️</div>
+        <img src="foto3.jpg" alt="Üçüncü Fotoğraf">
+        <h1>Biliyordum! Seni Çok Seviyorum! 🥰</h1>
+        <p>Şimdi tek yapmamız gereken bu güzel anları yeniden yaşamak. Seni seviyorum!</p>
+        <audio id="myAudio" loop>
+            <source src="muzik.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <script>
+        // Kalp animasyonu için
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️'; // Kalp emojisi
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 5 + 5 + 's'; // 5-10 saniye arası
+            heart.style.fontSize = Math.random() * 20 + 20 + 'px'; // 20-40px arası
+            heart.style.opacity = Math.random() * 0.5 + 0.3; // Yarı şeffaf
+            document.querySelector('.heart-background').appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, parseFloat(heart.style.animationDuration) * 1000); // Animasyon bitince kalbi sil
+        }
+        setInterval(createHeart, 300); // Her 300ms'de bir kalp oluştur
+
+        function nextStep() {
+            document.getElementById('step1').classList.add('hidden');
+            document.getElementById('step2').classList.remove('hidden');
+        }
+
+        function celebrate() {
+            document.getElementById('step2').classList.add('hidden');
+            document.getElementById('step3').classList.remove('hidden');
+            document.getElementById('myAudio').play();
+            // document.body.style.backgroundColor = "#ffe6f0"; // Arka planı hafiflet
+        }
+
+        function moveButton() {
+            const btn = document.getElementById('noBtn');
+            const container = document.getElementById('step2'); // İçinde bulunduğu container
+            const x = Math.random() * (container.offsetWidth - btn.offsetWidth);
+            const y = Math.random() * (container.offsetHeight - btn.offsetHeight);
+            btn.style.position = 'absolute';
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+        }
+    </script>
+</body>
+</html>
